@@ -1,0 +1,98 @@
+
+Phase 0
+C (mandatory) + some Assembly (x86)
+C Fundamentals (4–8 weeks)Start here — C is your gateway to Assembly
+Variables, data types, operators
+Control flow (if, while, for, switch)
+Functions, stack frames, recursion
+Pointers & pointer arithmetic ← this is the critical bridge to Assembly
+Arrays, strings (as char arrays)
+malloc/free, memory layout (stack vs heap)
+Structs, unions, bitfields
+Resources: The C Programming Language (K&R), CS50x (free)
+Data structures
+Computer organization basics
+
+
+
+ The Bridge — C meets the Machine (2–3 weeks)
+Before touching Assembly directly, use C to see the machine:
+
+Compile with gcc -S file.c → reads the generated .s Assembly output
+Use objdump -d or Compiler Explorer (godbolt.org) to watch C → ASM live
+Understand how C maps to: function calls, loops, conditionals, pointer dere
+
+
+
+Phase 1 — Bootloader
+Learn how BIOS/UEFI loads code
+Write a tiny bootloader (or use GRUB to cheat a little)
+Goal: print something like "Hello from kernel"
+
+
+Phase 2 — Kernel foundation
+Set up bare-metal environment
+Write kernel in C (+ a bit of ASM)
+Handle:
+Interrupts
+Basic memory access
+Screen output (VGA)
+
+Goal: your kernel runs and doesn’t crash instantly
+
+
+Phase 3 — Memory Management
+This is where most people give up.
+
+Physical vs Virtual memory
+Paging
+Heap allocator (malloc/free for kernel)
+
+If this breaks → everything breaks. Congrats.
+
+
+
+
+Phase 4 — Input & Interrupts
+Make your OS actually react.
+
+Keyboard driver
+Interrupt Descriptor Table (IDT)
+Timer interrupts
+
+Now your OS isn’t a dead rock anymore.
+
+
+
+
+Phase 5 — File System
+Start simple (like FAT12)
+Read/write files
+Understand disk sectors
+
+Phase 6 — Multitasking
+Process management
+Context switching
+Scheduling (round-robin first)
+
+Phase 7 — User Space
+System calls
+Separate kernel/user mode
+Run simple programs
+
+Phase 8 — UI
+CLI shell (start here) 
+Later: basic GUI 
+
+
+
+Tools you’ll use
+GCC cross-compiler
+QEMU (for testing)
+NASM (assembly)
+
+
+Actually useful resources
+Operating Systems: Three Easy Pieces
+Operating System Concepts
+OSDev Wiki (this is your bible)
