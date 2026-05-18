@@ -27,5 +27,6 @@ uint64_t pmm_alloc_contiguous(size_t page_count);   /* Tensor Allocator */
 uint64_t pmm_get_total_pages(void);
 uint64_t pmm_get_free_pages(void);
 void  pmm_dump_stats(void);
+void pmm_debug_set_free(uint64_t pages);
 
 #endif /* PMM_H */

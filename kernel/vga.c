@@ -151,3 +151,5 @@ void vga_putdec(uint64_t val) {
     while (val > 0) { buf[i++] = '0' + (char)(val % 10); val /= 10; }
     while (i--) vga_putchar(buf[i]);
 }
+
+

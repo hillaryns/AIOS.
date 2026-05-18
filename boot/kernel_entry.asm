@@ -80,6 +80,9 @@ bits 64
 
 long_mode_entry:
     mov rsp, stack_top
+   ; pass multiboot magic + addr
+   mov edi, eax
+   mov rsi, rbx
 
     call kernel_main
 

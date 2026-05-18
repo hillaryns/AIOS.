@@ -7,8 +7,11 @@
 #include "include/idt.h"
 #include "include/keyboard.h"
 #include "include/mouse.h"
+#include "memory_map.h"
 #include "include/pit.h"
 #include "include/shell.h"
+#include "pmm.h"
+#include "multiboot2.h"
 
 #include <stdint.h>
 
@@ -59,11 +62,15 @@ static void pit_isr(interrupt_frame_t *frame)
     pit_handler();
 }
 
+
+
+
+
 /* ------------------------------------------------------------ */
 
-void kernel_main(uint32_t magic, uint32_t addr)
+void kernel_main(uint32_t magic, uint64_t addr)
 {
-    (void)addr;
+   /* (void)addr;*/
 
     vga_init();
 
@@ -94,8 +101,15 @@ void kernel_main(uint32_t magic, uint32_t addr)
     /* -------------------------------------------------------- */
     /* Multiboot */
 
-    if (magic == MULTIBOOT2_MAGIC) {
+    if (1) {
         print_ok("Multiboot2 verified");
+	vga_puts("CALLING MEMORY MAP...\n");
+	print_memory_map(addr);
+	vga_puts("\nMEMORY MAP DONE\n\n");
+	for (;;)
+{
+    __asm__ volatile ("hlt");
+}
     } else {
         vga_puts_color(
             "[WARN] Not booted via Multiboot2\n",
@@ -121,6 +135,7 @@ void kernel_main(uint32_t magic, uint32_t addr)
     idt_init();
 
     print_ok("after idt");
+    pmm_debug_set_free(131072);
     idt_register_handler(0x20, pit_isr);
     pit_init(100);
 

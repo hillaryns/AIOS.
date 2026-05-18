@@ -34,5 +34,6 @@ void vga_puts(const char *s);
 void vga_puts_color(const char *s, vga_color_t fg, vga_color_t bg);
 void vga_puthex(uint64_t val);
 void vga_putdec(uint64_t val);
+void vga_puthex(uint64_t value);
 
 #endif /* VGA_H */

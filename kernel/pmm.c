@@ -123,3 +123,8 @@ void pmm_dump_stats(void)
     vga_putdec(total_frames - free_frames);
     vga_puts("\n");
 }
+
+void pmm_debug_set_free(uint64_t pages)
+{
+    free_frames = pages;
+}

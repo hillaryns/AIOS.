@@ -1,7 +1,7 @@
 #include "include/shell.h"
 #include "include/vga.h"
 #include "include/pit.h"
-#include "include/pmm.h"
+#include "pmm.h"
 
 #include <stdint.h>
 
@@ -9,6 +9,8 @@
 
 static char shell_buffer[SHELL_BUFFER_SIZE];
 static int shell_index = 0;
+
+static uint64_t last_page = 0;
 
 /* -------------------------------------------------- */
 
@@ -47,7 +49,11 @@ static void shell_execute(void)
             "clear\n"
             "uptime\n"
             "meminfo\n"
+	    "allocpage\n"
+	    "freepage\n"
             "echo\n"
+	    "crash\n"
+	    "pagefault\n"
         );
     }
 
@@ -63,6 +69,20 @@ static void shell_execute(void)
         vga_putdec((uint32_t)pit_get_ms());
     }
 
+   else if (strcmp(shell_buffer, "crash")) {
+
+        __asm__ volatile ("int $0");
+
+  }
+
+  else if (strcmp(shell_buffer, "pagefault")) {
+
+       volatile uint64_t *ptr =
+          (uint64_t*)0xFFFFFFFFFFFFULL;
+
+       *ptr = 123;
+  }
+
     else if (strcmp(shell_buffer, "meminfo")) {
 
        uint64_t free_pages = pmm_get_free_pages();
@@ -75,6 +95,31 @@ static void shell_execute(void)
        vga_putdec((uint32_t)free_mb);
 
        vga_puts(" MB");
+    }
+
+   else if (strcmp(shell_buffer, "allocpage")) {
+
+      last_page = pmm_alloc_page();
+
+      vga_puts("\nAllocated page: ");
+
+      vga_puthex(last_page);
+   }
+
+   else if (strcmp(shell_buffer, "freepage")) {
+
+        if (last_page) {
+
+            pmm_free_page(last_page);
+
+            vga_puts("\nPage freed");
+
+            last_page = 0;
+
+        } else {
+
+            vga_puts("\nNo page allocated");
+        }
     }
 
     else if (shell_buffer[0] == 'e' &&

@@ -4,7 +4,7 @@
 
 #include "include/idt.h"
 #include "include/vga.h"
-
+#include "exceptions.h"
 #include <stdint.h>
 
 /* ============================================================
@@ -149,7 +149,15 @@ void isr_dispatch(interrupt_frame_t *frame)
 {
     uint64_t vec = frame->int_num;
 
+    /* CPU Exceptions */
+    if (vec < 32) {
+
+        exception_handler(vec);
+    }
+
+    /* Registered ISR handlers */
     if (isr_handlers[vec]) {
+
         isr_handlers[vec](frame);
     }
 
