@@ -9,7 +9,6 @@
   <!-- Auto-reload live emotion CSS -->
   <link id="aura-live" rel="stylesheet" href="../themes/aura_live.css">
   <style>
-    /* Live CSS reload every 5s for emotion aura */
     body { margin: 0; padding: 0; }
   </style>
 </head>
@@ -17,13 +16,13 @@
 
   <!-- ── TOP NAV ─────────────────────────────────────────── -->
   <nav class="topnav glass">
-    <span class="nav-logo">⦿ AIOS</span>
+    <a href="../index.html" class="nav-logo" style="text-decoration:none">⦿ AIOS SHELL</a>
     <div class="nav-links">
       <a href="#memories"  class="nav-link active">Memories</a>
       <a href="#goals"     class="nav-link">Goals</a>
       <a href="#projects"  class="nav-link">Projects</a>
       <a href="#decisions" class="nav-link">Decisions</a>
-      <a href="#files"     class="nav-link">Files</a>
+      <a href="#timeline"  class="nav-link">Timeline</a>
       <a href="#privacy"   class="nav-link">Privacy</a>
     </div>
     <div class="nav-right">
@@ -83,10 +82,10 @@
       </div>
     </section>
 
-    <!-- Timeline -->
-    <section class="card glass full-width" id="timeline">
-      <h2 class="card-title">📅  Memory Timeline</h2>
-      <div id="timeline-container" class="timeline"></div>
+    <!-- Projects Board -->
+    <section class="card glass" id="projects">
+      <h2 class="card-title">🛠️  Project Board</h2>
+      <div id="projectsList" class="item-list"></div>
     </section>
 
     <!-- Decision Forks -->
@@ -95,30 +94,36 @@
       <div id="decisionsList" class="item-list"></div>
     </section>
 
+    <!-- Timeline -->
+    <section class="card glass full-width" id="timeline">
+      <h2 class="card-title">📅  Memory Timeline</h2>
+      <div id="timeline-container" class="timeline"></div>
+    </section>
+
     <!-- Privacy Panel -->
-    <section class="card glass" id="privacy">
-      <h2 class="card-title">🔒  Privacy Status</h2>
+    <section class="card glass full-width" id="privacy">
+      <h2 class="card-title">🔒  Privacy & Control Dashboard</h2>
       <div class="privacy-grid">
         <div class="privacy-item">
           <span class="privacy-check ok">✓</span>
-          <span>100% local processing — no data leaves device</span>
+          <span>100% Local Processing — Zero data leaves your device</span>
         </div>
         <div class="privacy-item">
           <span class="privacy-check ok">✓</span>
-          <span>Memory encrypted at rest (AES)</span>
+          <span>Memory Encrypted at Rest (AES-128-CBC + HMAC)</span>
         </div>
         <div class="privacy-item">
           <span class="privacy-check ok">✓</span>
-          <span>Zero telemetry</span>
+          <span>Zero Telemetry & External Tracking</span>
         </div>
         <div class="privacy-item">
           <span class="privacy-check ok">✓</span>
-          <span>Camera: <span id="cameraStatus">Off</span></span>
+          <span>Sensors: Camera <span id="cameraStatus" style="color:var(--aura-primary)">[OFF]</span> | Mic <span id="micStatus" style="color:var(--aura-primary)">[MUTED]</span></span>
         </div>
       </div>
-      <div class="btn-row">
-        <button class="btn-outline" onclick="exportData()">Export My Data</button>
-        <button class="btn-outline btn-danger" onclick="eraseData()">Request Erasure</button>
+      <div class="btn-row" style="margin-top:16px">
+        <button class="btn-outline" onclick="exportData()">Export My Data (JSON)</button>
+        <button class="btn-outline btn-danger" onclick="eraseData()">Request Full Erasure (Article 17)</button>
       </div>
     </section>
 

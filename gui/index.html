@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AIOS — AI-Integrated Operating System</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg-base:#07080f;--bg-panel:rgba(12,14,28,.85);--bg-card:rgba(16,18,38,.9);--bg-hover:rgba(80,60,180,.15);
@@ -13,10 +13,12 @@
   --t1:#e8eaf6;--t2:#8b90b8;--t3:#4a5080;
   --border:rgba(100,80,220,.18);
   --r1:8px;--r2:12px;--r3:16px;
+  --aura-color:#00d4ff;
 }
 html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(--bg-base);color:var(--t1);overflow:hidden;user-select:none}
 .bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 50% 110%,rgba(80,40,200,.28) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 20% 80%,rgba(30,60,180,.18) 0%,transparent 60%),linear-gradient(170deg,#07080f 0%,#080c1a 50%,#07080f 100%)}
 .stars{position:fixed;inset:0;z-index:0;background-image:radial-gradient(1px 1px at 10% 15%,rgba(255,255,255,.6) 0%,transparent 100%),radial-gradient(1px 1px at 25% 40%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 40% 8%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 55% 30%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 70% 12%,rgba(255,255,255,.6) 0%,transparent 100%),radial-gradient(1px 1px at 85% 25%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 92% 55%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 5% 60%,rgba(255,255,255,.3) 0%,transparent 100%),radial-gradient(1px 1px at 15% 75%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 60% 70%,rgba(255,255,255,.3) 0%,transparent 100%)}
+
 /* TOPBAR */
 .topbar{position:fixed;top:0;left:0;right:0;height:38px;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(7,8,15,.85);border-bottom:1px solid var(--border);backdrop-filter:blur(12px);font-size:11px}
 .tbl{display:flex;align-items:center;gap:18px;color:var(--t2)}
@@ -24,30 +26,34 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .logo{font-family:'Orbitron',sans-serif;font-size:17px;font-weight:700;letter-spacing:4px;background:linear-gradient(135deg,var(--blue),var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .tagline{font-size:9px;letter-spacing:3px;color:var(--t3);text-transform:uppercase}
 .tbr{display:flex;align-items:center;gap:12px}
-.tbr svg{width:14px;height:14px;opacity:.5;cursor:pointer}
+.tbr svg{width:14px;height:14px;opacity:.5;cursor:pointer;transition:opacity .2s}
 .tbr svg:hover{opacity:1}
-.badge{font-size:10px;color:var(--cyan);background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);padding:2px 8px;border-radius:20px}
-.avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;cursor:pointer}
+.badge{font-size:10px;color:var(--cyan);background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.3);padding:2px 8px;border-radius:20px;display:flex;align-items:center;gap:4px}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
+.avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;cursor:pointer;transition:transform .2s}
+.avatar:hover{transform:scale(1.1)}
+
 /* LAYOUT */
 .layout{position:fixed;top:38px;bottom:72px;left:0;right:0;z-index:10;display:grid;grid-template-columns:88px 1fr;gap:0}
 /* SIDEBAR */
 .sidebar{background:rgba(8,10,22,.92);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:2px;backdrop-filter:blur(20px)}
-.slogo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(124,95,255,.3),rgba(59,139,255,.2));border:1px solid rgba(124,95,255,.4);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:var(--purple);box-shadow:0 0 18px rgba(124,95,255,.4);margin-bottom:4px}
+.slogo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(124,95,255,.3),rgba(59,139,255,.2));border:1px solid rgba(124,95,255,.4);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:var(--purple);box-shadow:0 0 18px rgba(124,95,255,.4);margin-bottom:4px;cursor:pointer}
 .slabel{font-size:9px;color:var(--purple);letter-spacing:1px}
 .ssub{font-size:8px;color:var(--t3);margin-bottom:10px}
 .nav{width:76px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;border-radius:var(--r1);color:var(--t3);font-size:9px;transition:all .2s}
 .nav:hover,.nav.on{background:rgba(80,60,180,.15);color:var(--purple)}
 .nav svg{width:18px;height:18px}
 .sdiv{width:40px;height:1px;background:var(--border);margin:6px 0}
-/* MAIN */
+
+/* MAIN GRID */
 .main{display:grid;grid-template-columns:295px 1fr 284px;gap:10px;padding:10px;overflow:hidden}
-/* PANEL */
 .panel{background:rgba(16,18,38,.9);border:1px solid var(--border);border-radius:var(--r2);padding:12px 14px;backdrop-filter:blur(16px)}
 .ptitle{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:10px;font-weight:600}
-/* LEFT COL */
 .cl{display:flex;flex-direction:column;gap:10px}
+
 /* ORB */
-.orb-card{background:rgba(16,18,38,.9);border:1px solid var(--border);border-radius:var(--r2);padding:14px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(16px)}
+.orb-card{background:rgba(16,18,38,.9);border:1px solid var(--border);border-radius:var(--r2);padding:14px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(16px);cursor:pointer;transition:border-color .2s}
+.orb-card:hover{border-color:rgba(124,95,255,.5)}
 .orb-wrap{width:56px;height:56px;flex-shrink:0;position:relative;display:flex;align-items:center;justify-content:center}
 .orb{width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#a78bff,#5b3fff 50%,#1a0f6e);box-shadow:0 0 22px rgba(124,95,255,.7),0 0 44px rgba(124,95,255,.3);animation:op 3s ease-in-out infinite}
 @keyframes op{0%,100%{box-shadow:0 0 22px rgba(124,95,255,.7),0 0 44px rgba(124,95,255,.3)}50%{box-shadow:0 0 32px rgba(124,95,255,.9),0 0 66px rgba(124,95,255,.5)}}
@@ -61,8 +67,10 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .wb{width:3px;border-radius:2px;background:linear-gradient(to top,var(--purple),var(--cyan));animation:wb 1.2s ease-in-out infinite}
 .wb:nth-child(1){height:5px;animation-delay:0s}.wb:nth-child(2){height:10px;animation-delay:.1s}.wb:nth-child(3){height:14px;animation-delay:.2s}.wb:nth-child(4){height:8px;animation-delay:.3s}.wb:nth-child(5){height:12px;animation-delay:.4s}.wb:nth-child(6){height:6px;animation-delay:.5s}.wb:nth-child(7){height:10px;animation-delay:.6s}.wb:nth-child(8){height:14px;animation-delay:.7s}.wb:nth-child(9){height:7px;animation-delay:.8s}.wb:nth-child(10){height:11px;animation-delay:.9s}
 @keyframes wb{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.9)}}
+
 /* CONTEXT */
-.ctx-mode{display:flex;align-items:center;gap:8px;background:rgba(124,95,255,.1);border:1px solid rgba(124,95,255,.25);border-radius:var(--r1);padding:6px 10px;margin-bottom:10px;font-size:12px}
+.ctx-mode{display:flex;align-items:center;gap:8px;background:rgba(124,95,255,.1);border:1px solid rgba(124,95,255,.25);border-radius:var(--r1);padding:6px 10px;margin-bottom:10px;font-size:12px;cursor:pointer;transition:background .2s}
+.ctx-mode:hover{background:rgba(124,95,255,.2)}
 .ctx-mode svg{width:13px;height:13px;color:var(--purple);flex-shrink:0}
 .ctx-mode span{flex:1;font-weight:500}
 .ctx-meta{display:flex;gap:8px;margin-bottom:10px}
@@ -70,12 +78,13 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .ml{font-size:9px;color:var(--t3)}
 .mv{font-size:11px;color:var(--t2);margin-top:2px}
 .ctx-icons{display:flex;gap:6px;margin-bottom:10px}
-.ci{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;transition:background .2s}
-.ci:hover{background:rgba(80,60,180,.15)}
+.ci{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;transition:all .2s}
+.ci:hover{background:rgba(80,60,180,.2);border-color:var(--purple)}
 .prog-lbl{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--t2);margin-bottom:5px}
 .pv{font-size:16px;font-weight:700;color:var(--purple)}
 .pbar{height:5px;border-radius:3px;background:rgba(255,255,255,.06);overflow:hidden}
-.pfill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--purple),var(--cyan));box-shadow:0 0 8px rgba(124,95,255,.5)}
+.pfill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--purple),var(--cyan));box-shadow:0 0 8px rgba(124,95,255,.5);transition:width .4s ease}
+
 /* VITALS */
 .vdrow{display:flex;align-items:center;gap:12px;margin-bottom:10px}
 .donut-w{position:relative;width:56px;height:56px}
@@ -85,17 +94,18 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .vlbl{width:36px;font-size:10px;color:var(--t3)}
 .vval{width:52px;font-weight:500}
 .vbar{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.06);overflow:hidden}
-.vfill{height:100%;border-radius:2px}
+.vfill{height:100%;border-radius:2px;transition:width .5s ease}
 .vfill.p{background:linear-gradient(90deg,var(--purple),var(--blue))}
 .vfill.b{background:linear-gradient(90deg,var(--blue),var(--cyan))}
 .vfill.g{background:var(--green)}
 .vfill.a{background:var(--amber)}
 .spark{display:flex;align-items:flex-end;gap:1.5px;height:12px}
 .sp{width:3px;border-radius:1px;background:var(--blue);opacity:.7}
+
 /* CENTER */
 .cc{display:flex;flex-direction:column;position:relative;overflow:hidden}
 .hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;min-height:0}
-.hg{font-size:22px;font-weight:300;text-align:center}
+.hg{font-size:24px;font-weight:300;text-align:center}
 .hs{font-size:12px;color:var(--t2);margin-top:4px;text-align:center}
 .ring-wrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
 .rings{position:relative;width:320px;height:320px;display:flex;align-items:center;justify-content:center}
@@ -106,12 +116,14 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .r4{width:316px;height:316px;border-color:rgba(124,95,255,.07);animation-duration:50s;animation-direction:reverse}
 @keyframes rot{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 .rdot{position:absolute;top:-3px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--purple);box-shadow:0 0 8px var(--purple)}
-.logo-c{width:82px;height:82px;border-radius:50%;background:radial-gradient(circle at 40% 40%,rgba(124,95,255,.4),rgba(30,20,80,.9));border:2px solid rgba(124,95,255,.5);box-shadow:0 0 40px rgba(124,95,255,.5),0 0 80px rgba(124,95,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:rgba(124,95,255,.9);animation:cg 4s ease-in-out infinite;z-index:2}
+.logo-c{width:82px;height:82px;border-radius:50%;background:radial-gradient(circle at 40% 40%,rgba(124,95,255,.4),rgba(30,20,80,.9));border:2px solid rgba(124,95,255,.5);box-shadow:0 0 40px rgba(124,95,255,.5),0 0 80px rgba(124,95,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:28px;font-weight:900;color:rgba(124,95,255,.9);animation:cg 4s ease-in-out infinite;z-index:2;cursor:pointer}
 @keyframes cg{0%,100%{box-shadow:0 0 40px rgba(124,95,255,.5),0 0 80px rgba(124,95,255,.2)}50%{box-shadow:0 0 60px rgba(124,95,255,.8),0 0 120px rgba(124,95,255,.4)}}
 .beam{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:180px;height:260px;background:linear-gradient(to bottom,rgba(124,95,255,.3),transparent);clip-path:polygon(35% 0%,65% 0%,100% 100%,0% 100%);pointer-events:none}
+
 /* RIGHT */
 .cr{display:flex;flex-direction:column;gap:10px;overflow-y:auto}
 .cr::-webkit-scrollbar{display:none}
+
 /* GRAPH */
 .gp{background:rgba(16,18,38,.9);border:1px solid var(--border);border-radius:var(--r2);padding:12px;height:200px;position:relative;overflow:hidden;backdrop-filter:blur(16px)}
 .gh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
@@ -121,6 +133,7 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .ldot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.5s ease-in-out infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 #gc{position:absolute;inset:0;width:100%;height:100%}
+
 /* AGENTS */
 .ai{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .ai:last-child{border-bottom:none}
@@ -135,7 +148,8 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .pmg{font-size:9px;color:var(--blue);cursor:pointer;display:flex;justify-content:flex-end;margin-bottom:6px}
 .pfb{width:100%;padding:7px;background:rgba(59,139,255,.1);border:1px solid rgba(59,139,255,.2);border-radius:var(--r1);font-size:10px;color:var(--blue);cursor:pointer;text-align:center;transition:background .2s;margin-top:8px}
 .pfb:hover{background:rgba(59,139,255,.2)}
-/* INSIGHTS */
+
+/* INSIGHTS & UPCOMING */
 .ii{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:10.5px}
 .ii:last-child{border-bottom:none}
 .iico{font-size:13px;flex-shrink:0;margin-top:1px}
@@ -143,7 +157,6 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .ib{color:var(--t1);font-weight:500}
 .sab{width:100%;padding:6px;background:rgba(124,95,255,.1);border:1px solid rgba(124,95,255,.2);border-radius:var(--r1);font-size:10px;color:var(--purple);cursor:pointer;text-align:center;margin-top:8px;transition:background .2s}
 .sab:hover{background:rgba(124,95,255,.2)}
-/* UPCOMING */
 .uph{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .addb{font-size:9px;color:var(--blue);background:rgba(59,139,255,.1);border:1px solid rgba(59,139,255,.2);padding:2px 8px;border-radius:10px;cursor:pointer}
 .ui{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04)}
@@ -157,8 +170,9 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .usub{font-size:9px;color:var(--t3);margin-top:1px}
 .vcal{width:100%;padding:6px;background:rgba(59,139,255,.1);border:1px solid rgba(59,139,255,.2);border-radius:var(--r1);font-size:10px;color:var(--blue);text-align:center;cursor:pointer;margin-top:8px;transition:background .2s}
 .vcal:hover{background:rgba(59,139,255,.2)}
-/* WEATHER */
-.wcard{background:rgba(16,18,38,.9);border:1px solid var(--border);border-radius:var(--r2);padding:12px;backdrop-filter:blur(16px)}
+
+/* WEATHER & MEDIA */
+.wcard,.mc{background:rgba(16,18,38,.9);border:1px solid var(--border);border-radius:var(--r2);padding:12px;backdrop-filter:blur(16px)}
 .wm{display:flex;align-items:center;gap:10px}
 .wico{font-size:28px}
 .wtemp{font-size:24px;font-weight:300}
@@ -168,8 +182,6 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .wd{text-align:center;font-size:8.5px;color:var(--t3)}
 .wdlbl{margin-bottom:2px}
 .wdt{font-size:9.5px;color:var(--t2);font-weight:500}
-/* MEDIA */
-.mc{background:rgba(16,18,38,.9);border:1px solid var(--border);border-radius:var(--r2);padding:12px;backdrop-filter:blur(16px)}
 .msong{font-size:12px;font-weight:600;margin-top:8px}
 .mservice{font-size:9px;color:var(--t3);margin-top:2px}
 .mvis{width:100%;height:46px;border-radius:8px;margin:10px 0;background:linear-gradient(135deg,#1a0d40,#2d1060,#0d2080);display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -183,10 +195,11 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .mpbar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-top:8px}
 .mpf{height:100%;width:33%;border-radius:2px;background:linear-gradient(90deg,var(--purple),var(--cyan))}
 .mtime{display:flex;justify-content:space-between;font-size:8px;color:var(--t3);margin-top:3px}
+
 /* DOCK */
 .dock{position:fixed;bottom:0;left:0;right:0;height:72px;z-index:100;background:rgba(7,8,15,.88);border-top:1px solid var(--border);backdrop-filter:blur(20px);display:flex;flex-direction:column;align-items:center}
 .sbwrap{padding:7px 160px 0;width:100%}
-.sbar{display:flex;align-items:center;gap:10px;background:rgba(20,22,45,.9);border:1px solid rgba(124,95,255,.25);border-radius:30px;padding:6px 16px;box-shadow:0 0 20px rgba(124,95,255,.1)}
+.sbar{display:flex;align-items:center;gap:10px;background:rgba(20,22,45,.9);border:1px solid rgba(124,95,255,.25);border-radius:30px;padding:6px 16px;box-shadow:0 0 20px rgba(124,95,255,.1);cursor:pointer}
 .sico{font-size:12px;color:var(--purple)}
 .sinput{flex:1;background:transparent;border:none;outline:none;font-family:'Inter',sans-serif;font-size:12px;color:var(--t2);caret-color:var(--purple)}
 .sinput::placeholder{color:var(--t3)}
@@ -199,6 +212,34 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 .dsep{width:1px;height:26px;background:var(--border);margin:0 3px}
 .dcenter{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,rgba(124,95,255,.4),rgba(59,139,255,.3));border:1px solid rgba(124,95,255,.5);display:flex;align-items:center;justify-content:center;box-shadow:0 0 16px rgba(124,95,255,.4);cursor:pointer;font-size:13px}
 .dpwr{width:26px;height:26px;border-radius:50%;background:rgba(255,77,106,.15);border:1px solid rgba(255,77,106,.3);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;color:var(--red)}
+
+/* MODALS & OVERLAYS */
+.modal-overlay{position:fixed;inset:0;z-index:999;background:rgba(5,6,12,0.75);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;animation:fadeIn .2s ease}
+.modal-overlay.show{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.spotlight-box{width:680px;background:rgba(13,17,28,0.95);border:1px solid rgba(124,95,255,0.3);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.8),0 0 40px rgba(124,95,255,0.2);overflow:hidden}
+.spotlight-input-row{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.spotlight-orb{font-size:20px;color:var(--cyan)}
+.spotlight-input{flex:1;background:none;border:none;outline:none;color:#fff;font-size:16px;font-family:'Inter',sans-serif}
+.spotlight-results{max-height:340px;overflow-y:auto;padding:10px 12px}
+.spotlight-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;cursor:pointer;transition:background .15s}
+.spotlight-item:hover{background:rgba(124,95,255,0.15)}
+.spotlight-icon{font-size:16px}
+.spotlight-title{font-size:13px;font-weight:500;color:var(--t1)}
+.spotlight-meta{font-size:11px;color:var(--t3)}
+
+.terminal-box{width:760px;height:460px;background:#090c15;border:1px solid rgba(124,95,255,0.3);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,0.8);display:flex;flex-direction:column;overflow:hidden;font-family:'JetBrains Mono',monospace}
+.terminal-header{height:34px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:11px;color:var(--t2)}
+.term-dots{display:flex;gap:6px}
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-dot.r{background:#ff5f56}.term-dot.y{background:#ffbd2e}.term-dot.g{background:#27c93f}
+.terminal-body{flex:1;padding:14px;overflow-y:auto;font-size:12px;line-height:1.6;color:#a0a8d0}
+.term-line{margin-bottom:6px}
+.term-prompt{color:var(--cyan);font-weight:600}
+.terminal-input-row{display:flex;align-items:center;gap:8px;padding:8px 14px;background:rgba(0,0,0,0.4);border-top:1px solid rgba(255,255,255,0.06)}
+.terminal-input{flex:1;background:none;border:none;outline:none;color:#00ff88;font-family:'JetBrains Mono',monospace;font-size:12px}
+
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(124,95,255,.3);border-radius:2px}
 </style>
 </head>
@@ -217,13 +258,12 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
     <div class="tagline">AI-Integrated Operating System</div>
   </div>
   <div class="tbr">
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1" stroke-linecap="round"/></svg>
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2C5.8 2 4 3.8 4 6c0 3.2 4 8 4 8s4-4.8 4-8c0-2.2-1.8-4-4-4z"/><circle cx="8" cy="6" r="1.5"/></svg>
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5a1 1 0 0 1 1 1V3a4 4 0 0 1 3 3.9V10l1.5 1.5v.5h-11v-.5L4 10V6.9A4 4 0 0 1 7 3V2.5a1 1 0 0 1 1-1z"/><path d="M6.5 12a1.5 1.5 0 0 0 3 0"/></svg>
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="9" rx="1.5"/><path d="M5 12v2M11 12v2M3 14h10"/></svg>
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.1 3.1l1.4 1.4M11.5 11.5l1.4 1.4M3.1 12.9l1.4-1.4M11.5 4.5l1.4-1.4"/></svg>
-    <div class="badge">AI Core Active</div>
-    <div class="avatar">B</div>
+    <svg id="topSearchIcon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1" stroke-linecap="round"/></svg>
+    <svg id="topLocationIcon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2C5.8 2 4 3.8 4 6c0 3.2 4 8 4 8s4-4.8 4-8c0-2.2-1.8-4-4-4z"/><circle cx="8" cy="6" r="1.5"/></svg>
+    <svg id="topBellIcon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.5a1 1 0 0 1 1 1V3a4 4 0 0 1 3 3.9V10l1.5 1.5v.5h-11v-.5L4 10V6.9A4 4 0 0 1 7 3V2.5a1 1 0 0 1 1-1z"/><path d="M6.5 12a1.5 1.5 0 0 0 3 0"/></svg>
+    <svg id="topTermIcon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="9" rx="1.5"/><path d="M5 12v2M11 12v2M3 14h10"/></svg>
+    <div class="badge"><span class="badge-dot"></span> AI Core Active</div>
+    <div class="avatar" id="userAvatar" title="User Profile">B</div>
   </div>
 </div>
 
@@ -231,40 +271,40 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 <div class="layout">
   <!-- SIDEBAR -->
   <nav class="sidebar">
-    <div class="slogo">N</div>
+    <div class="slogo" onclick="openSpotlight()">N</div>
     <div class="slabel">NEXUS</div>
     <div class="ssub">AI Core</div>
-    <div class="nav on">
+    <div class="nav on" data-target="home">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
       Nexus
     </div>
-    <div class="nav">
+    <div class="nav" data-target="memory">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="10" cy="6" rx="7" ry="3"/><path d="M3 6v4c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M3 10v4c0 1.7 3.1 3 7 3s7-1.3 7-3v-4"/></svg>
       Memory
     </div>
-    <div class="nav">
+    <div class="nav" data-target="agents">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="7" r="4"/><path d="M3 18c0-3.3 3.1-6 7-6s7 2.7 7 6"/></svg>
       Agents
     </div>
     <div class="sdiv"></div>
-    <div class="nav">
+    <div class="nav" data-target="projects">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="16" height="12" rx="1.5"/><path d="M6 5V3.5A1.5 1.5 0 0 1 7.5 2h5A1.5 1.5 0 0 1 14 3.5V5"/><path d="M10 10v4M8 12h4"/></svg>
       Projects
     </div>
-    <div class="nav">
+    <div class="nav" data-target="chat">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 3H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z"/><path d="M1 7h18"/></svg>
-      Conversations
+      Chat
     </div>
-    <div class="nav">
+    <div class="nav" data-target="terminal">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h12a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M7 8h6M7 11h4"/></svg>
-      Files
+      Terminal
     </div>
     <div class="sdiv"></div>
-    <div class="nav">
+    <div class="nav" data-target="system">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="16" height="12" rx="1.5"/><circle cx="10" cy="9" r="3"/></svg>
       System
     </div>
-    <div class="nav">
+    <div class="nav" data-target="settings">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="3"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"/></svg>
       Settings
     </div>
@@ -275,14 +315,14 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
     <!-- LEFT -->
     <div class="cl">
       <!-- ORB -->
-      <div class="orb-card">
+      <div class="orb-card" id="orbCard" onclick="toggleVoiceOrb()">
         <div class="orb-wrap">
           <div class="oring"></div><div class="oring"></div>
           <div class="orb"></div>
         </div>
         <div class="orb-txt">
-          <div class="listen">I'm listening...</div>
-          <div class="q">How can I help you?</div>
+          <div class="listen" id="orbStateText">I'm listening...</div>
+          <div class="q" id="orbSubText">Click orb or press Super+Space</div>
           <div class="wave">
             <div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div>
             <div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div>
@@ -293,31 +333,31 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
       <!-- ACTIVE CONTEXT -->
       <div class="panel">
         <div class="ptitle">Active Context</div>
-        <div class="ctx-mode">
+        <div class="ctx-mode" id="personaSelector" onclick="switchPersona()">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,8 2,8 8,2 14,8 12,8 12,14 4,14"/></svg>
-          <span>Developer Mode</span>
+          <span id="currentPersonaLabel">Developer Mode</span>
           <div style="width:18px;height:18px;border-radius:4px;background:rgba(124,95,255,.2);border:1px solid rgba(124,95,255,.3);display:flex;align-items:center;justify-content:center;font-size:9px">▼</div>
         </div>
         <div class="ctx-meta">
-          <div class="mi"><div class="ml">Focus</div><div class="mv">Deep Work</div></div>
+          <div class="mi"><div class="ml">Focus</div><div class="mv" id="focusModeVal">Deep Work</div></div>
           <div class="mi"><div class="ml">Environment</div><div class="mv">Optimal</div></div>
           <div class="mi"><div class="ml">Interruptions</div><div class="mv">Minimized</div></div>
         </div>
         <div class="ctx-icons">
-          <div class="ci">&lt;/&gt;</div>
-          <div class="ci">📷</div>
-          <div class="ci">🔧</div>
-          <div class="ci">📊</div>
+          <div class="ci" title="Code Editor">&lt;/&gt;</div>
+          <div class="ci" title="Vision Sensor">📷</div>
+          <div class="ci" title="Settings">🔧</div>
+          <div class="ci" title="Analytics">📊</div>
         </div>
-        <div class="prog-lbl"><span>Productivity</span><span class="pv">92%</span></div>
-        <div class="pbar"><div class="pfill" style="width:92%"></div></div>
+        <div class="prog-lbl"><span>Productivity</span><span class="pv" id="prodPercent">92%</span></div>
+        <div class="pbar"><div class="pfill" id="prodFill" style="width:92%"></div></div>
       </div>
 
       <!-- SYSTEM VITALS -->
       <div class="panel" style="flex:1">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
           <div class="ptitle" style="margin:0">System Vitals</div>
-          <span style="font-size:10px;color:var(--blue);cursor:pointer">›</span>
+          <span style="font-size:10px;color:var(--blue);cursor:pointer" onclick="openTerminal('nexus status')">› Details</span>
         </div>
         <div class="vdrow">
           <div class="donut-w">
@@ -326,21 +366,21 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
               <circle cx="28" cy="28" r="22" fill="none" stroke="url(#dg)" stroke-width="6" stroke-dasharray="138 138" stroke-dashoffset="104" stroke-linecap="round" transform="rotate(-90 28 28)"/>
               <defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#7c5fff"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient></defs>
             </svg>
-            <div class="donut-lbl">45<div class="dsub">SysLoad</div></div>
+            <div class="donut-lbl"><span id="sysLoadVal">45</span><div class="dsub">SysLoad</div></div>
           </div>
           <div style="flex:1">
             <div style="font-size:10px;color:var(--t3);margin-bottom:6px">System Health</div>
-            <div class="vr"><div class="vlbl">CPU</div><div class="vval">23%</div><div class="vbar"><div class="vfill p" style="width:23%"></div></div><div class="spark"><div class="sp" style="height:4px"></div><div class="sp" style="height:6px"></div><div class="sp" style="height:5px"></div><div class="sp" style="height:8px"></div><div class="sp" style="height:5px"></div></div></div>
-            <div class="vr"><div class="vlbl">RAM</div><div class="vval">6.4 / 16</div><div class="vbar"><div class="vfill b" style="width:40%"></div></div><div style="font-size:9px;color:var(--t3)">40%</div></div>
+            <div class="vr"><div class="vlbl">CPU</div><div class="vval" id="cpuVal">23%</div><div class="vbar"><div class="vfill p" id="cpuFill" style="width:23%"></div></div></div>
+            <div class="vr"><div class="vlbl">RAM</div><div class="vval" id="ramVal">6.4 GB</div><div class="vbar"><div class="vfill b" id="ramFill" style="width:40%"></div></div></div>
           </div>
         </div>
-        <div class="vr"><div class="vlbl">GPU</div><div class="vval">18%</div><div class="vbar"><div class="vfill g" style="width:18%"></div></div><div class="spark"><div class="sp" style="height:3px"></div><div class="sp" style="height:7px"></div><div class="sp" style="height:4px"></div><div class="sp" style="height:6px"></div></div></div>
-        <div class="vr"><div class="vlbl">Disk</div><div class="vval">128 / 512</div><div class="vbar"><div class="vfill a" style="width:25%"></div></div><div style="font-size:9px;color:var(--t3)">25%</div></div>
+        <div class="vr"><div class="vlbl">GPU</div><div class="vval" id="gpuVal">18%</div><div class="vbar"><div class="vfill g" id="gpuFill" style="width:18%"></div></div></div>
+        <div class="vr"><div class="vlbl">Disk</div><div class="vval">128 / 512 GB</div><div class="vbar"><div class="vfill a" style="width:25%"></div></div></div>
         <div class="vr"><div class="vlbl">Net</div><div class="vval">1.3 Gbps</div><div class="vbar"><div class="vfill p" style="width:13%"></div></div></div>
       </div>
     </div>
 
-    <!-- CENTER -->
+    <!-- CENTER HERO -->
     <div class="cc">
       <div class="hero">
         <div class="ring-wrap">
@@ -349,13 +389,13 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
             <div class="ring r2"><div class="rdot"></div></div>
             <div class="ring r3"><div class="rdot"></div></div>
             <div class="ring r4"></div>
-            <div class="logo-c">Λ</div>
+            <div class="logo-c" onclick="openSpotlight()">Λ</div>
           </div>
         </div>
         <div class="beam"></div>
         <div style="position:relative;z-index:5;text-align:center;margin-top:-60px">
-          <div class="hg">Good Evening, Biswajit</div>
-          <div class="hs">AIOS is ready to assist you</div>
+          <div class="hg">Good Day, Developer</div>
+          <div class="hs">AIOS AI-Integrated OS is active & ready</div>
         </div>
       </div>
     </div>
@@ -375,7 +415,7 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
       <div class="panel">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
           <div class="ptitle" style="margin:0">Active Agents</div>
-          <span class="pmg">Manage</span>
+          <span class="pmg" onclick="openTerminal('nexus agents list')">Manage</span>
         </div>
         <div class="ai">
           <div class="aa">🧠</div>
@@ -389,32 +429,31 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
         </div>
         <div class="ai">
           <div class="aa">💾</div>
-          <div class="ain"><div class="aname">Memory Curator</div><div class="arole">Organizing your memories</div></div>
+          <div class="ain"><div class="aname">Memory Curator</div><div class="arole">Organizing memories</div></div>
           <div class="astat"><div class="sd g"></div><span style="color:var(--green)">Active</span></div>
         </div>
         <div class="ai">
           <div class="aa">💻</div>
-          <div class="ain"><div class="aname">Code Assistant</div><div class="arole">Reviewing ai_memory.py</div></div>
+          <div class="ain"><div class="aname">Code Assistant</div><div class="arole">Reviewing Phase 9 GUI</div></div>
           <div class="astat"><div class="sd g"></div><span style="color:var(--green)">Active</span></div>
         </div>
-        <div class="pfb">→ View All Agents</div>
+        <div class="pfb" onclick="window.location.href='dashboard/index.html#projects'">→ View Memory Dashboard</div>
       </div>
 
       <!-- LIVE INSIGHTS -->
       <div class="panel">
         <div class="ptitle">Live Insights</div>
         <div class="ii"><div class="iico">🕒</div><div class="itxt">You are most productive <span class="ib">9AM &ndash; 1PM</span></div></div>
-        <div class="ii"><div class="iico">🎯</div><div class="itxt">Focus time <span class="ib">increased by 32%</span> this week</div></div>
+        <div class="ii"><div class="iico">🎯</div><div class="itxt">Focus time <span class="ib">increased by 32%</span></div></div>
         <div class="ii"><div class="iico">💬</div><div class="itxt">Mentioned <span class="ib">&ldquo;AIOS&rdquo;</span> 47 times today</div></div>
-        <div class="ii"><div class="iico">🛠️</div><div class="itxt">Working on <span class="ib">Deep Work</span> for 3h 42m</div></div>
-        <div class="sab">See All Insights</div>
+        <div class="sab" onclick="window.location.href='dashboard/index.html'">See All Memory Analytics</div>
       </div>
 
       <!-- UPCOMING -->
       <div class="panel">
         <div class="uph">
           <div class="ptitle" style="margin:0">Upcoming</div>
-          <div class="addb">+ Add</div>
+          <div class="addb" onclick="alert('Event added to AIOS Calendar')">+ Add</div>
         </div>
         <div class="ui">
           <div class="ut">9:00 AM</div>
@@ -424,32 +463,7 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
         <div class="ui">
           <div class="ut">1:30 PM</div>
           <div class="udot da"></div>
-          <div><div class="utit">Project Review</div><div class="usub">AIOS Development</div></div>
-        </div>
-        <div class="ui">
-          <div class="ut">6:00 PM</div>
-          <div class="udot db"></div>
-          <div><div class="utit">Gym</div><div class="usub">Health &amp; Fitness</div></div>
-        </div>
-        <div class="vcal">View Calendar</div>
-      </div>
-
-      <!-- WEATHER -->
-      <div class="wcard">
-        <div class="ptitle">Weather</div>
-        <div class="wm">
-          <div class="wico">⛅</div>
-          <div>
-            <div class="wtemp">26&deg;C</div>
-            <div class="wdesc">Partly Cloudy</div>
-            <div class="wloc">Bangalore, IN</div>
-          </div>
-        </div>
-        <div class="wweek">
-          <div class="wd"><div class="wdlbl">Mon</div><div class="wdt">27&deg;</div></div>
-          <div class="wd"><div class="wdlbl">Tue</div><div class="wdt">28&deg;</div></div>
-          <div class="wd"><div class="wdlbl">Wed</div><div class="wdt">25&deg;</div></div>
-          <div class="wd"><div class="wdlbl">Thu</div><div class="wdt">26&deg;</div></div>
+          <div><div class="utit">Project Review</div><div class="usub">Phase 9 GUI Review</div></div>
         </div>
       </div>
 
@@ -466,12 +480,10 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
         </div>
         <div class="mctrl">
           <div class="cbtn">⏮</div>
-          <div class="cplay">▶</div>
+          <div class="cplay" id="mediaPlayBtn">▶</div>
           <div class="cbtn">⏭</div>
           <div class="cbtn">🔀</div>
         </div>
-        <div class="mpbar"><div class="mpf"></div></div>
-        <div class="mtime"><span>12:40</span><span>45:30</span></div>
       </div>
     </div>
   </div>
@@ -480,55 +492,103 @@ html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(-
 <!-- DOCK -->
 <div class="dock">
   <div class="sbwrap">
-    <div class="sbar">
+    <div class="sbar" onclick="openSpotlight()">
       <div class="sico">🔍</div>
-      <input class="sinput" placeholder="Ask me anything, or run a command..." />
+      <input class="sinput" id="dockSearchInput" placeholder="Ask me anything, search memory, or run a command (Super+Space)..." readonly />
       <div class="smic">🎙️</div>
     </div>
   </div>
   <div class="dock-row">
-    <div class="ditem">
+    <div class="ditem" onclick="openSpotlight()">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="7" height="7" rx="1"/><rect x="11" y="2" width="7" height="7" rx="1"/><rect x="2" y="11" width="7" height="7" rx="1"/><rect x="11" y="11" width="7" height="7" rx="1"/></svg>
       Apps
     </div>
-    <div class="ditem">
+    <div class="ditem" onclick="window.location.href='dashboard/index.html'">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="12" y="3" width="5" height="5" rx="1"/><rect x="3" y="12" width="5" height="5" rx="1"/><path d="M12 14.5h5M14.5 12v5"/></svg>
-      Widgets
+      Dashboard
     </div>
     <div class="ditem on">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
       Holo Space
     </div>
     <div class="dsep"></div>
-    <div class="ditem">
+    <div class="ditem" onclick="openTerminal()">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="5" width="16" height="11" rx="1.5"/><path d="M5 8l3 3-3 3M10 14h5"/></svg>
       Terminal
     </div>
-    <div class="ditem">
+    <div class="ditem" onclick="openSpotlight()">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2l2.4 4.9 5.4.8-3.9 3.8.9 5.3L10 14.3l-4.8 2.5.9-5.3L2.2 7.7l5.4-.8z"/></svg>
-      Quick Access
+      Quick Search
     </div>
     <div class="dsep"></div>
-    <div class="dcenter">Λ</div>
+    <div class="dcenter" onclick="openSpotlight()">Λ</div>
     <div class="dsep"></div>
-    <div class="ditem">
+    <div class="ditem" onclick="window.location.href='dashboard/index.html#timeline'">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2C5.6 2 2 5.6 2 10s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8"/><path d="M10 6v4l3 2"/></svg>
-      Recent
+      Timeline
     </div>
-    <div class="ditem">
-      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3l14 14M3 17L17 3"/></svg>
-      
-    </div>
-    <div class="ditem">
+    <div class="ditem" onclick="openTerminal('nexus logs')">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h12M4 10h12M4 14h8"/></svg>
       Logs
     </div>
-    <div class="ditem">
-      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><path d="M10 7v3l2 1"/></svg>
-      History
-    </div>
     <div class="dsep"></div>
-    <div class="dpwr">⏻</div>
+    <div class="dpwr" onclick="if(confirm('Pause AIOS Nexus daemon?')) alert('AIOS paused.')">⏻</div>
+  </div>
+</div>
+
+<!-- SPOTLIGHT MODAL -->
+<div class="modal-overlay" id="spotlightModal" onclick="if(event.target===this) closeSpotlight()">
+  <div class="spotlight-box">
+    <div class="spotlight-input-row">
+      <span class="spotlight-orb">⦿</span>
+      <input type="text" class="spotlight-input" id="spotlightInput" placeholder="Ask AIOS, search memory, or run command..." autocomplete="off">
+    </div>
+    <div class="spotlight-results" id="spotlightResults">
+      <div class="spotlight-item" onclick="runSpotlightAction('status')">
+        <span class="spotlight-icon">📊</span>
+        <div>
+          <div class="spotlight-title">nexus status — Check AIOS system health</div>
+          <div class="spotlight-meta">COMMAND  │  View active agents, memory, and LLM</div>
+        </div>
+      </div>
+      <div class="spotlight-item" onclick="runSpotlightAction('memory')">
+        <span class="spotlight-icon">💾</span>
+        <div>
+          <div class="spotlight-title">Search memory archive</div>
+          <div class="spotlight-meta">MEMORY  │  Open Memory & Analytics Dashboard</div>
+        </div>
+      </div>
+      <div class="spotlight-item" onclick="runSpotlightAction('chat')">
+        <span class="spotlight-icon">💬</span>
+        <div>
+          <div class="spotlight-title">Start AI conversation</div>
+          <div class="spotlight-meta">CHAT  │  Ask Ollama local model</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TERMINAL MODAL -->
+<div class="modal-overlay" id="terminalModal" onclick="if(event.target===this) closeTerminal()">
+  <div class="terminal-box">
+    <div class="terminal-header">
+      <div class="term-dots">
+        <div class="term-dot r" onclick="closeTerminal()" style="cursor:pointer"></div>
+        <div class="term-dot y"></div>
+        <div class="term-dot g"></div>
+      </div>
+      <div>AIOS Nexus CLI — Terminal</div>
+      <div>bash 5.2</div>
+    </div>
+    <div class="terminal-body" id="terminalOutput">
+      <div class="term-line" style="color:var(--purple)">AIOS Nexus OS v3.0 [Pure Roadmap Edition]</div>
+      <div class="term-line" style="color:var(--t3)">Type 'help', 'nexus status', 'nexus memory', or any shell command.</div>
+    </div>
+    <div class="terminal-input-row">
+      <span class="term-prompt">biswajit@aios:~$</span>
+      <input type="text" class="terminal-input" id="terminalInput" autocomplete="off" />
+    </div>
   </div>
 </div>
 
@@ -545,7 +605,7 @@ function updateClock(){
 }
 updateClock(); setInterval(updateClock,1000);
 
-// Nexus Graph Canvas
+// Canvas Nexus Graph
 const canvas=document.getElementById('gc');
 const ctx2=canvas.getContext('2d');
 let nodes=[];
@@ -560,9 +620,7 @@ function resize(){
 function initNodes(){
   const cx=canvas.width/2, cy=canvas.height/2;
   nodes=[];
-  // center node
   nodes.push({x:cx,y:cy,r:14,icon:'🧠',vx:0,vy:0,center:true});
-  // ring nodes
   const count=6;
   for(let i=0;i<count;i++){
     const angle=(i/count)*Math.PI*2;
@@ -587,94 +645,210 @@ function drawGraph(){
   ctx2.clearRect(0,0,canvas.width,canvas.height);
   const cx=canvas.width/2, cy=canvas.height/2;
   t+=0.008;
-  // update node positions
   for(let i=1;i<nodes.length;i++){
     const n=nodes[i];
     n.angle+=0.003;
     n.x=cx+Math.cos(n.angle)*n.dist;
     n.y=cy+Math.sin(n.angle)*n.dist;
   }
-  // draw edges
   for(let i=1;i<nodes.length;i++){
     const n=nodes[i];
     const dx=n.x-cx, dy=n.y-cy;
-    const dist=Math.sqrt(dx*dx+dy*dy);
     const alpha=0.3+0.2*Math.sin(t+i);
     const grad=ctx2.createLinearGradient(cx,cy,n.x,n.y);
     grad.addColorStop(0,'rgba(124,95,255,'+alpha+')');
     grad.addColorStop(1,'rgba(0,212,255,'+alpha*0.5+')');
-    ctx2.beginPath();
-    ctx2.moveTo(cx,cy);
-    ctx2.lineTo(n.x,n.y);
-    ctx2.strokeStyle=grad;
-    ctx2.lineWidth=1;
-    ctx2.stroke();
-    // particle on edge
+    ctx2.beginPath(); ctx2.moveTo(cx,cy); ctx2.lineTo(n.x,n.y);
+    ctx2.strokeStyle=grad; ctx2.lineWidth=1; ctx2.stroke();
     const pt=((t*0.5+i*0.15)%1);
     const px=cx+dx*pt, py=cy+dy*pt;
-    ctx2.beginPath();
-    ctx2.arc(px,py,2,0,Math.PI*2);
-    ctx2.fillStyle='rgba(0,212,255,0.8)';
-    ctx2.fill();
+    ctx2.beginPath(); ctx2.arc(px,py,2,0,Math.PI*2);
+    ctx2.fillStyle='rgba(0,212,255,0.8)'; ctx2.fill();
   }
-  // cross edges
   for(let i=1;i<nodes.length;i++){
     for(let j=i+1;j<nodes.length;j++){
       const a=nodes[i],b=nodes[j];
       const d=Math.hypot(a.x-b.x,a.y-b.y);
       if(d<80){
-        ctx2.beginPath();
-        ctx2.moveTo(a.x,a.y);ctx2.lineTo(b.x,b.y);
-        ctx2.strokeStyle='rgba(59,139,255,'+(.08*(1-d/80))+')';
-        ctx2.lineWidth=0.5;
-        ctx2.stroke();
+        ctx2.beginPath(); ctx2.moveTo(a.x,a.y); ctx2.lineTo(b.x,b.y);
+        ctx2.strokeStyle='rgba(59,139,255,'+(.08*(1-d/80))+')'; ctx2.lineWidth=0.5; ctx2.stroke();
       }
     }
   }
-  // draw center node
-  const cn=nodes[0];
   const cg=ctx2.createRadialGradient(cx,cy,0,cx,cy,14);
-  cg.addColorStop(0,'rgba(160,120,255,0.9)');
-  cg.addColorStop(1,'rgba(80,50,200,0.7)');
-  ctx2.beginPath(); ctx2.arc(cx,cy,14,0,Math.PI*2);
-  ctx2.fillStyle=cg; ctx2.fill();
-  ctx2.beginPath(); ctx2.arc(cx,cy,14,0,Math.PI*2);
-  ctx2.strokeStyle='rgba(124,95,255,0.8)'; ctx2.lineWidth=1.5; ctx2.stroke();
-  ctx2.font='10px serif'; ctx2.textAlign='center'; ctx2.textBaseline='middle';
-  ctx2.fillStyle='white'; ctx2.fillText('🧠',cx,cy);
-  // draw ring nodes
+  cg.addColorStop(0,'rgba(160,120,255,0.9)'); cg.addColorStop(1,'rgba(80,50,200,0.7)');
+  ctx2.beginPath(); ctx2.arc(cx,cy,14,0,Math.PI*2); ctx2.fillStyle=cg; ctx2.fill();
+  ctx2.beginPath(); ctx2.arc(cx,cy,14,0,Math.PI*2); ctx2.strokeStyle='rgba(124,95,255,0.8)'; ctx2.lineWidth=1.5; ctx2.stroke();
+  ctx2.font='10px serif'; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillStyle='white'; ctx2.fillText('🧠',cx,cy);
   for(let i=1;i<nodes.length;i++){
     const n=nodes[i];
     const pulse=0.8+0.2*Math.sin(t*2+i);
     ctx2.beginPath(); ctx2.arc(n.x,n.y,n.r*pulse,0,Math.PI*2);
     const ng=ctx2.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r);
-    ng.addColorStop(0,'rgba(100,70,220,0.8)');
-    ng.addColorStop(1,'rgba(40,25,100,0.5)');
+    ng.addColorStop(0,'rgba(100,70,220,0.8)'); ng.addColorStop(1,'rgba(40,25,100,0.5)');
     ctx2.fillStyle=ng; ctx2.fill();
-    ctx2.beginPath(); ctx2.arc(n.x,n.y,n.r*pulse,0,Math.PI*2);
-    ctx2.strokeStyle='rgba(124,95,255,0.5)'; ctx2.lineWidth=1; ctx2.stroke();
-    ctx2.font='8px serif'; ctx2.textAlign='center'; ctx2.textBaseline='middle';
-    ctx2.fillText(n.icon,n.x,n.y);
+    ctx2.font='8px serif'; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(n.icon,n.x,n.y);
   }
-  // glow pulse
   const gp=ctx2.createRadialGradient(cx,cy,0,cx,cy,30);
-  gp.addColorStop(0,'rgba(124,95,255,'+(.12+.06*Math.sin(t))+')'));
+  gp.addColorStop(0,'rgba(124,95,255,'+(.12+.06*Math.sin(t))+')');
   gp.addColorStop(1,'rgba(124,95,255,0)');
-  ctx2.beginPath(); ctx2.arc(cx,cy,30,0,Math.PI*2);
-  ctx2.fillStyle=gp; ctx2.fill();
+  ctx2.beginPath(); ctx2.arc(cx,cy,30,0,Math.PI*2); ctx2.fillStyle=gp; ctx2.fill();
   requestAnimationFrame(drawGraph);
 }
 window.addEventListener('resize',resize);
-resize();
-drawGraph();
+resize(); drawGraph();
 
-// Nav click
+// Sidebar Navigation
 document.querySelectorAll('.nav').forEach(n=>{
   n.addEventListener('click',()=>{
     document.querySelectorAll('.nav').forEach(x=>x.classList.remove('on'));
     n.classList.add('on');
+    const target = n.dataset.target;
+    if (target === 'memory' || target === 'projects') {
+      window.location.href = 'dashboard/index.html#' + target;
+    } else if (target === 'terminal') {
+      openTerminal();
+    } else if (target === 'chat') {
+      openSpotlight('Ask AIOS: ');
+    } else if (target === 'settings') {
+      openSpotlight('nexus settings');
+    }
   });
 });
+
+// Spotlight Overlay logic
+function openSpotlight(prefill = '') {
+  const modal = document.getElementById('spotlightModal');
+  const input = document.getElementById('spotlightInput');
+  modal.classList.add('show');
+  input.value = prefill;
+  input.focus();
+}
+function closeSpotlight() {
+  document.getElementById('spotlightModal').classList.remove('show');
+}
+document.getElementById('spotlightInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeSpotlight();
+  if (e.key === 'Enter') {
+    const q = e.target.value.trim();
+    if (q) {
+      runSpotlightAction(q);
+    }
+  }
+});
+function runSpotlightAction(q) {
+  closeSpotlight();
+  if (q === 'memory') {
+    window.location.href = 'dashboard/index.html';
+  } else if (q === 'status' || q.startsWith('nexus')) {
+    openTerminal(q);
+  } else {
+    openTerminal('nexus query "' + q + '"');
+  }
+}
+
+// Global Super+Space / Ctrl+K Listener
+window.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === ' ') {
+    e.preventDefault();
+    openSpotlight();
+  } else if (e.key === 'Escape') {
+    closeSpotlight();
+    closeTerminal();
+  }
+});
+
+// Terminal Emulator logic
+function openTerminal(initialCmd = '') {
+  const modal = document.getElementById('terminalModal');
+  const input = document.getElementById('terminalInput');
+  modal.classList.add('show');
+  input.focus();
+  if (initialCmd) {
+    execTerminalCmd(initialCmd);
+  }
+}
+function closeTerminal() {
+  document.getElementById('terminalModal').classList.remove('show');
+}
+document.getElementById('terminalInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    const cmd = e.target.value.trim();
+    if (cmd) {
+      execTerminalCmd(cmd);
+      e.target.value = '';
+    }
+  }
+});
+
+function execTerminalCmd(cmd) {
+  const out = document.getElementById('terminalOutput');
+  const userLine = document.createElement('div');
+  userLine.className = 'term-line';
+  userLine.innerHTML = `<span style="color:var(--cyan)">biswajit@aios:~$</span> ${cmd}`;
+  out.appendChild(userLine);
+
+  const resLine = document.createElement('div');
+  resLine.className = 'term-line';
+
+  if (cmd === 'clear') {
+    out.innerHTML = '';
+    return;
+  } else if (cmd === 'help') {
+    resLine.innerHTML = `Available Commands:<br> &bull; nexus status &mdash; View OS system vitals & agents<br> &bull; nexus memory list &mdash; View memory store<br> &bull; nexus goal list &mdash; Active goals<br> &bull; nexus persona [dev|student|creative|business] &mdash; Switch persona<br> &bull; clear &mdash; Clear screen`;
+  } else if (cmd.includes('status')) {
+    resLine.innerHTML = `[AIOS Status] 🟢 Active & Healthy<br>CPU: 23% | RAM: 6.4GB / 16GB | GPU: 18%<br>EIE Emotion: 🎯 Focused | Persona: Developer<br>FastAPI Server: http://localhost:11435 [CONNECTED]`;
+  } else if (cmd.includes('memory')) {
+    resLine.innerHTML = `[AIOS Memory Store] 42 entries loaded (SQLite + ChromaDB)<br>Latest: "Phase 9 Desktop GUI architecture" (Importance: 0.95)`;
+  } else {
+    resLine.innerHTML = `[Nexus AI] Processing command '${cmd}'...<br>Response: Execution completed successfully. Context updated in vector DB.`;
+  }
+
+  out.appendChild(resLine);
+  out.scrollTop = out.scrollHeight;
+}
+
+// Persona Switcher
+const personas = ['Developer Mode', 'Student Mode', 'Creative Mode', 'Business Mode'];
+let personaIdx = 0;
+function switchPersona() {
+  personaIdx = (personaIdx + 1) % personas.length;
+  document.getElementById('currentPersonaLabel').textContent = personas[personaIdx];
+  alert('Switched to ' + personas[personaIdx] + '. Workspace & context updated.');
+}
+
+// Voice Orb toggle
+let orbListening = false;
+function toggleVoiceOrb() {
+  orbListening = !orbListening;
+  document.getElementById('orbStateText').textContent = orbListening ? '🎤 Listening active...' : "I'm listening...";
+  document.getElementById('orbSubText').textContent = orbListening ? 'Speak now into microphone' : 'Click orb or press Super+Space';
+}
+
+// Media player toggle
+const playBtn = document.getElementById('mediaPlayBtn');
+let isPlaying = true;
+if (playBtn) {
+  playBtn.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    playBtn.textContent = isPlaying ? '▶' : '⏸';
+    document.querySelectorAll('.mwb').forEach(w => w.style.animationPlayState = isPlaying ? 'running' : 'paused');
+  });
+}
+
+// Dynamic System Vitals simulation
+setInterval(() => {
+  const cpu = Math.floor(18 + Math.random() * 15);
+  const gpu = Math.floor(12 + Math.random() * 12);
+  const ram = (6.2 + Math.random() * 0.5).toFixed(1);
+  const sysload = Math.floor(40 + Math.random() * 10);
+  document.getElementById('cpuVal').textContent = cpu + '%';
+  document.getElementById('cpuFill').style.width = cpu + '%';
+  document.getElementById('ramVal').textContent = ram + ' GB';
+  document.getElementById('gpuVal').textContent = gpu + '%';
+  document.getElementById('gpuFill').style.width = gpu + '%';
+  document.getElementById('sysLoadVal').textContent = sysload;
+}, 3000);
 </script>
 </body>
 </html>
